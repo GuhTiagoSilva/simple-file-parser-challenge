@@ -1,7 +1,0 @@
-enums/FileStatus.class
-application/Program.class
-models/Statistics.class
-models/FileParser.class
-utils/DirectoryUtils.class
-models/TxtParser.class
-exceptions/CustomFileException.class
