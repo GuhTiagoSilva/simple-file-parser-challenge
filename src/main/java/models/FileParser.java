@@ -82,7 +82,7 @@ public abstract class FileParser {
             Path fileName = pathEvent.context();
             boolean fileDoNotHaveInvalidName = DirectoryUtils.hasInvalidName(fileName);
 
-            if (fileDoNotHaveInvalidName) {
+            if (fileDoNotHaveInvalidName && !fileName.toString().equals("processed")) {
                 final String PATH_TO_FILE = directory + "/" + fileName;
                 File file = new File(PATH_TO_FILE);
                 Path monitoredPath = Path.of(PATH_TO_FILE);
@@ -125,6 +125,7 @@ public abstract class FileParser {
 
         if (!targetDirectory.toFile().isDirectory()) {
             new File(PROCESSED_FILES_DIRECTORY).mkdirs();
+            Files.move(currentDirectoryFile, targetDirectoryFile);
         } else {
             if (!Files.exists(targetDirectoryFile))
                 Files.move(currentDirectoryFile, targetDirectoryFile);
