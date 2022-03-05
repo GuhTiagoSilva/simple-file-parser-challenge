@@ -18,7 +18,7 @@ Below we can find the class diagram developed for project implementation.
 
 | UML Class Design |    
 |:----------------:|
-|     ![](/home/gustavo/Projects/Java/simple-file-parser-challenge/src/main/resources/images/uml_diagram.jpeg)     |
+|     ![alt text](https://github.com/GuhTiagoSilva/simple-file-parser-challenge/blob/main/src/main/resources/images/uml_diagram.jpeg?raw=true)     |
 
 My main focus was on making the system adaptable to future changes, aiming at both ease of maintenance and elasticity.
 Therefore, the first class that was created was FileParser. This class was thought of as abstract, because that way, no one will be able to instantiate the FileParser but its concrete objects, that is, objects that extend this class.
@@ -41,4 +41,4 @@ After processing, the PROCESSED value of the enum is set to the file and the sta
 
 |                                               Current Test Coverage                                               |    
 |:-----------------------------------------------------------------------------------------------------------------:|
-| ![](/home/gustavo/Projects/Java/simple-file-parser-challenge/src/main/resources/images/current_code_coverage.png) |
+| ![alt text](https://github.com/GuhTiagoSilva/simple-file-parser-challenge/blob/main/src/main/resources/images/current_code_coverage.png?raw=true) |
