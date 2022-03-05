@@ -50,13 +50,13 @@ public class Statistics {
     }
 
     public Map<String, Long> getFileInformation(Path monitoredPath) {
-        Map<String, Long> result = null;
+        Map<String, Long> result;
         try {
             result = Files.lines(monitoredPath)
                     .flatMap(line -> Stream.of(line.split(" ")))
                     .collect(Collectors.groupingBy(word -> word, Collectors.counting()));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CustomFileException("An error occurred during the process of get file information");
         }
 
         result.entrySet().removeIf(entry -> entry.getKey().equals(""));

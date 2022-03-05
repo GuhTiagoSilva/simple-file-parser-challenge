@@ -19,7 +19,6 @@ public class TxtParser extends FileParser {
             registerFolderInWatchService(watchService, monitoredDirectory, directory);
         } catch (IOException e) {
             this.setFileStatus(FileStatus.ERROR);
-            e.printStackTrace();
         }
         return this;
     }

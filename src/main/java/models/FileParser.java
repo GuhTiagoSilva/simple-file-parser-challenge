@@ -1,6 +1,7 @@
 package models;
 
 import enums.FileStatus;
+import exceptions.CustomFileException;
 import utils.DirectoryUtils;
 
 import java.io.File;
@@ -54,7 +55,7 @@ public abstract class FileParser {
 
     private void monitorEventsInDirectory(WatchKey watchKey, String directory) throws IOException {
         for (WatchEvent<?> event : watchKey.pollEvents()) {
-
+            this.setFileStatus(FileStatus.PROCESSING);
             WatchEvent<Path> pathEvent = (WatchEvent<Path>) event;
             Path fileName = pathEvent.context();
             boolean fileDoNotHaveInvalidName = DirectoryUtils.hasInvalidName(fileName);
@@ -84,10 +85,15 @@ public abstract class FileParser {
     private void moveToProcessedDirectory(String directory, String fileName) throws IOException {
 
         final String PROCESSED_FILES_DIRECTORY = directory + "/" + "processed";
+        Path targetDirectory = Paths.get(PROCESSED_FILES_DIRECTORY);
+        Path currentDirectory = Paths.get(PROCESSED_FILES_DIRECTORY + "/" + fileName);
 
-        if (!Paths.get(PROCESSED_FILES_DIRECTORY).toFile().isDirectory())
+        if (!targetDirectory.toFile().isDirectory())
             new File(PROCESSED_FILES_DIRECTORY).mkdirs();
-        Files.move(Paths.get(directory + "/" + fileName), Paths.get(PROCESSED_FILES_DIRECTORY + "/" + fileName));
+        if (!Files.exists(currentDirectory))
+            Files.move(currentDirectory, targetDirectory);
+        else
+            throw new CustomFileException("The file " + fileName + "is already in the processed directory. Try to change the name of the file or put another one");
     }
 
     @Override
