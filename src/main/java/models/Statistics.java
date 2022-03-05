@@ -39,6 +39,11 @@ public class Statistics {
         this.mostFrequentWordInFile = mostFrequentWordInFile;
     }
 
+    /**
+     * Get a map containing the words of the file as the key and the amount of times they repeat as the value
+     * @param monitoredPath
+     * @return
+     */
     public Map<String, Long> getFileInformation(Path monitoredPath) {
         Map<String, Long> result;
         try {
@@ -52,6 +57,7 @@ public class Statistics {
         result.entrySet().removeIf(entry -> entry.getKey().equals(""));
         return result;
     }
+
 
     public Long getNumberOfDotsInFile(Path monitoredPath) {
         try {
@@ -74,6 +80,11 @@ public class Statistics {
         return mostFrequentWord.getKey();
     }
 
+    /**
+     * Extract the statiscts created and set in statistics object
+     * @param statistics
+     * @param monitoredPath
+     */
     public void extractStatisticsFromFile(Statistics statistics, Path monitoredPath) {
         var result = statistics.getFileInformation(monitoredPath);
         long numberOfWordsInFile = result.values().stream().mapToInt(Long::intValue).sum();

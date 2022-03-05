@@ -10,6 +10,13 @@ import java.nio.file.WatchService;
 
 public class TxtParser extends FileParser {
 
+    /**
+     * Generic method that could be implemented depending on the type of the file. It will be responsible to configure
+     * the objects needed to monitor the directory.
+     *
+     * @param directory
+     * @return
+     */
     @Override
     public FileParser analyzeFile(String directory) {
         try {

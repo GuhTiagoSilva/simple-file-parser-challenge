@@ -40,11 +40,24 @@ public abstract class FileParser {
         this.fileName = fileName;
     }
 
+    /**
+     * Registering the directory in the watch service. It will be responsible for monitor the events inside the directory
+     * @param watchService
+     * @param path
+     * @param directory
+     * @throws IOException
+     */
     public void registerFolderInWatchService(WatchService watchService, Path path, String directory) throws IOException {
         WatchKey watchKey = path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
         processFile(watchKey, directory);
     }
 
+    /**
+     * Start the process of the file.
+     * @param watchKey
+     * @param directory
+     * @throws IOException
+     */
     private void processFile(WatchKey watchKey, String directory) throws IOException {
         while (true) {
             monitorEventsInDirectory(watchKey, directory);
@@ -53,6 +66,12 @@ public abstract class FileParser {
         }
     }
 
+    /**
+     * Check events in the directory. Every event will be caught here
+     * @param watchKey
+     * @param directory
+     * @throws IOException
+     */
     private void monitorEventsInDirectory(WatchKey watchKey, String directory) throws IOException {
         for (WatchEvent<?> event : watchKey.pollEvents()) {
             this.setFileStatus(FileStatus.PROCESSING);
@@ -76,12 +95,22 @@ public abstract class FileParser {
         }
     }
 
+    /**
+     * Set the statistic data for the current file that is being analyzed
+     * @param monitoredPath
+     */
     private void buildStatitistics(Path monitoredPath) {
         Statistics statistics = new Statistics();
         statistics.extractStatisticsFromFile(statistics, monitoredPath);
         setStatistics(statistics);
     }
 
+    /**
+     * Move the processed files to processed directory
+     * @param directory
+     * @param fileName
+     * @throws IOException
+     */
     private void moveToProcessedDirectory(String directory, String fileName) throws IOException {
 
         final String PROCESSED_FILES_DIRECTORY = directory + "/" + "processed";
@@ -102,7 +131,7 @@ public abstract class FileParser {
                 " - File Status: " + this.getFileStatus() + "\n" +
                 " - Amount of words in file: " + this.getStatistics().getNumberOfWordsInFile() + "\n" +
                 " - Amount of dots in file: " + this.getStatistics().getNumberOfDotsInFile() + "\n" +
-                " - Most frequent word in file: '" + this.getStatistics().getMostFrequentWordInFile() + "\n" +
+                " - Most frequent word in file: '" + this.getStatistics().getMostFrequentWordInFile() + "'\n" +
                 "=========================================================== ";
     }
 }
