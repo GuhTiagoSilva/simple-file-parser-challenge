@@ -42,6 +42,7 @@ public abstract class FileParser {
 
     /**
      * Registering the directory in the watch service. It will be responsible for monitor the events inside the directory
+     *
      * @param watchService
      * @param path
      * @param directory
@@ -54,6 +55,7 @@ public abstract class FileParser {
 
     /**
      * Start the process of the file.
+     *
      * @param watchKey
      * @param directory
      * @throws IOException
@@ -68,6 +70,7 @@ public abstract class FileParser {
 
     /**
      * Check events in the directory. Every event will be caught here
+     *
      * @param watchKey
      * @param directory
      * @throws IOException
@@ -97,6 +100,7 @@ public abstract class FileParser {
 
     /**
      * Set the statistic data for the current file that is being analyzed
+     *
      * @param monitoredPath
      */
     private void buildStatitistics(Path monitoredPath) {
@@ -107,6 +111,7 @@ public abstract class FileParser {
 
     /**
      * Move the processed files to processed directory
+     *
      * @param directory
      * @param fileName
      * @throws IOException
@@ -115,14 +120,15 @@ public abstract class FileParser {
 
         final String PROCESSED_FILES_DIRECTORY = directory + "/" + "processed";
         Path targetDirectory = Paths.get(PROCESSED_FILES_DIRECTORY);
-        Path currentDirectory = Paths.get(PROCESSED_FILES_DIRECTORY + "/" + fileName);
+        Path currentDirectoryFile = Paths.get(directory + "/" + fileName);
+        Path targetDirectoryFile = Paths.get(PROCESSED_FILES_DIRECTORY + "/" + fileName);
 
-        if (!targetDirectory.toFile().isDirectory())
+        if (!targetDirectory.toFile().isDirectory()) {
             new File(PROCESSED_FILES_DIRECTORY).mkdirs();
-        if (!Files.exists(currentDirectory))
-            Files.move(currentDirectory, targetDirectory);
-        else
-            throw new CustomFileException("The file " + fileName + "is already in the processed directory. Try to change the name of the file or put another one");
+        } else {
+            if (!Files.exists(targetDirectoryFile))
+                Files.move(currentDirectoryFile, targetDirectoryFile);
+        }
     }
 
     @Override
