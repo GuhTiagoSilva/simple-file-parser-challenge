@@ -11,11 +11,11 @@ public class Program {
         FileParser txtParser = new TxtParser();
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Type a directory: ");
+        System.out.print("Insert a directory to monitor: ");
         String directory = sc.nextLine().trim();
 
-        txtParser = txtParser.getFileParser(directory);
+        txtParser = txtParser.analyzeFile(directory);
 
-        System.out.println(txtParser);
+        System.out.println(txtParser.getStatistics());
     }
 }

@@ -49,7 +49,7 @@ public class Statistics {
         this.mostFrequentWordInFile = mostFrequentWordInFile;
     }
 
-    public Map<String, Long> getNumberOfWordsInFile(Path monitoredPath) {
+    public Map<String, Long> getFileInformation(Path monitoredPath) {
         Map<String, Long> result = null;
         try {
             result = Files.lines(monitoredPath)
@@ -70,7 +70,7 @@ public class Statistics {
                     .collect(Collectors.toList()).size();
             return numberOfDots;
         } catch (IOException e) {
-            throw new CustomFileException(e.getMessage());
+            throw new CustomFileException("An error occurred during the process of get number of dots in file");
         }
     }
 
@@ -82,5 +82,28 @@ public class Statistics {
             }
         }
         return maxEntry.getKey();
+    }
+
+    public void extractStatisticsFromFile(Statistics statistics, Path monitoredPath) {
+        var result = statistics.getFileInformation(monitoredPath);
+        long numberOfWordsInFile = result.values().stream().mapToInt(Long::intValue).sum();
+        long numberOfDotsInFile = statistics.getNumberOfDotsInFile(monitoredPath);
+        String mostFrequentWordInFile = statistics.getMostFrequentWordInFile(result);
+        setStatisticsInformation(statistics, numberOfWordsInFile, numberOfDotsInFile, mostFrequentWordInFile);
+    }
+
+    private void setStatisticsInformation(Statistics statistics, long numberOfWordsInFile, long numberOfDotsInFile, String mostFrequentWordInFile) {
+        statistics.setNumberOfWordsInFile(numberOfWordsInFile);
+        statistics.setNumberOfDotsInFile(numberOfDotsInFile);
+        statistics.setMostFrequentWordInFile(mostFrequentWordInFile);
+    }
+
+    @Override
+    public String toString() {
+        return " ==== Statistics of file ==== \n" +
+                " - Amount of words in file: " + numberOfWordsInFile + "\n" +
+                " - Amount of dots in file: " + numberOfDotsInFile + "\n" +
+                " - Most frequent word in file: '" + mostFrequentWordInFile + "'\n" +
+                "============================= ";
     }
 }
