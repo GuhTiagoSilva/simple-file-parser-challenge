@@ -1,7 +1,6 @@
 package models;
 
 import enums.FileStatus;
-import exceptions.CustomFileException;
 import utils.DirectoryUtils;
 
 import java.io.File;
