@@ -15,16 +15,6 @@ public class Statistics {
     private long numberOfDotsInFile;
     private String mostFrequentWordInFile;
 
-    public Statistics() {
-
-    }
-
-    public Statistics(long numberOfWordsInFile, long numberOfDotsInFile, String mostFrequentWordInFile) {
-        this.numberOfWordsInFile = numberOfWordsInFile;
-        this.numberOfDotsInFile = numberOfDotsInFile;
-        this.mostFrequentWordInFile = mostFrequentWordInFile;
-    }
-
     public long getNumberOfWordsInFile() {
         return numberOfWordsInFile;
     }
@@ -75,13 +65,13 @@ public class Statistics {
     }
 
     public String getMostFrequentWordInFile(Map<String, Long> result) {
-        Map.Entry<String, Long> maxEntry = null;
-        for (Map.Entry<String, Long> entry : result.entrySet()) {
-            if (maxEntry == null || entry.getValue() > maxEntry.getValue()) {
-                maxEntry = entry;
+        Map.Entry<String, Long> mostFrequentWord = null;
+        for (Map.Entry<String, Long> fileWord : result.entrySet()) {
+            if (mostFrequentWord == null || fileWord.getValue() > mostFrequentWord.getValue()) {
+                mostFrequentWord = fileWord;
             }
         }
-        return maxEntry.getKey();
+        return mostFrequentWord.getKey();
     }
 
     public void extractStatisticsFromFile(Statistics statistics, Path monitoredPath) {
@@ -92,7 +82,7 @@ public class Statistics {
         setStatisticsInformation(statistics, numberOfWordsInFile, numberOfDotsInFile, mostFrequentWordInFile);
     }
 
-    private void setStatisticsInformation(Statistics statistics, long numberOfWordsInFile, long numberOfDotsInFile, String mostFrequentWordInFile) {
+    protected void setStatisticsInformation(Statistics statistics, long numberOfWordsInFile, long numberOfDotsInFile, String mostFrequentWordInFile) {
         statistics.setNumberOfWordsInFile(numberOfWordsInFile);
         statistics.setNumberOfDotsInFile(numberOfDotsInFile);
         statistics.setMostFrequentWordInFile(mostFrequentWordInFile);
